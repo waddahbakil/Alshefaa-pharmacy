@@ -1,0 +1,3307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>صيدلية الشفاء المركزية</title>
+<style>
+@charset "utf-8";
+
+* { margin: 0px; padding: 0px; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, rgb(30, 87, 153) 0%, rgb(43, 140, 94) 100%); min-height: 100vh; padding: 10px; user-select: none; overscroll-behavior: none; }
+
+.container { max-width: 1400px; margin: 0px auto; }
+
+.header { text-align: center; color: white; margin-bottom: 15px; padding: 10px; }
+
+.header h1 { font-size: 22px; margin-bottom: 5px; }
+
+.header p { font-size: 12px; opacity: 0.9; }
+
+.card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px; }
+
+.card-title { font-size: 18px; font-weight: bold; margin-bottom: 12px; color: rgb(30, 87, 153); border-bottom: 2px solid rgb(43, 140, 94); padding-bottom: 6px; }
+
+.search-box { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+
+.search-box input { flex: 1 1 0%; padding: 10px; border: 1px solid rgb(221, 221, 221); border-radius: 8px; font-size: 14px; min-width: 120px; }
+
+.search-box button { padding: 10px 16px; background: rgb(43, 140, 94); color: white; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; cursor: pointer; font-size: 14px; touch-action: manipulation; }
+
+.filter-buttons { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+
+.filter-buttons button { flex: 1 1 0%; padding: 10px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; touch-action: manipulation; }
+
+.stats { background: rgb(227, 242, 253); padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center; font-weight: bold; font-size: 13px; }
+
+.total-debt-box { background: rgb(255, 235, 238); padding: 12px; border-radius: 8px; margin-bottom: 12px; text-align: center; font-weight: bold; font-size: 16px; color: rgb(198, 40, 40); border: 2px solid rgb(239, 154, 154); }
+
+.sync-status { background: rgb(255, 243, 205); padding: 8px; border-radius: 8px; margin-bottom: 10px; text-align: center; font-size: 12px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+
+th { background: rgb(30, 87, 153); color: white; padding: 8px; font-size: 12px; position: sticky; top: 0px; }
+
+td { padding: 6px; border-bottom: 1px solid rgb(221, 221, 221); text-align: center; font-size: 12px; }
+
+tr { height: auto; }
+
+input[type="number"], input[type="text"] { padding: 5px; border-radius: 5px; border: 1px solid rgb(204, 204, 204); width: 70px; text-align: center; font-size: 12px; }
+
+button { background: rgb(43, 140, 94); color: white; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; margin: 1px; font-size: 11px; touch-action: manipulation; }
+
+.btn-wa { background: rgb(37, 211, 102); }
+
+.btn-sms { background: rgb(33, 150, 243); }
+
+.btn-danger { background: rgb(220, 53, 69); }
+
+.btn-save-cloud { background: rgb(23, 162, 184); }
+
+.btn-send-all { background: rgb(255, 152, 0); }
+
+.button-group { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+.button-group button { flex: 1 1 0%; font-size: 13px; padding: 10px; }
+
+.footer { text-align: center; color: white; margin-top: 15px; font-size: 11px; opacity: 0.8; }
+
+.empty { text-align: center; padding: 30px; color: rgb(153, 153, 153); }
+
+.movement-row { background: rgb(232, 245, 233) !important; }
+
+.import-section { border: 2px dashed rgb(43, 140, 94); border-radius: 8px; padding: 12px; margin-bottom: 12px; background: rgb(250, 250, 250); text-align: center; }
+
+.import-section p { font-size: 11px; color: rgb(102, 102, 102); margin: 4px 0px 8px; }
+
+.import-section input[type="file"] { margin-bottom: 8px; display: inline-block; font-size: 12px; width: 100%; }
+
+.btn-import { background: rgb(108, 117, 125); color: white; width: 100%; max-width: 250px; padding: 8px; border-radius: 5px; display: block; margin: 0px auto; }
+
+.touch-btn { min-height: 44px; min-width: 44px; }
+
+.table-scroll { overflow: auto; max-height: 60vh; }
+
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgb(51, 51, 51); color: white; padding: 12px 24px; border-radius: 25px; font-size: 14px; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+
+.toast.show { opacity: 1; }
+
+.modal-overlay { position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 2000; }
+
+.modal-overlay.active { display: flex; }
+
+.modal { background: white; border-radius: 15px; padding: 20px; max-width: 90%; width: 350px; text-align: center; }
+
+.modal h3 { color: rgb(30, 87, 153); margin-bottom: 15px; }
+
+.modal p { margin-bottom: 15px; font-size: 14px; line-height: 1.6; }
+
+.modal-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.modal-buttons button { padding: 10px 20px; font-size: 14px; }
+
+.btn-confirm { background: rgb(43, 140, 94); }
+
+.btn-cancel { background: rgb(108, 117, 125); }
+
+.btn-wa-modal { background: rgb(37, 211, 102); }
+
+.activation-overlay { position: fixed; inset: 0px; background: linear-gradient(135deg, rgb(30, 87, 153) 0%, rgb(43, 140, 94) 100%); display: flex; justify-content: center; align-items: center; z-index: 3000; }
+
+.activation-box { background: white; border-radius: 20px; padding: 30px; max-width: 90%; width: 350px; text-align: center; box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 30px; }
+
+.activation-box h2 { color: rgb(220, 53, 69); margin-bottom: 15px; }
+
+.activation-box p { color: rgb(102, 102, 102); margin-bottom: 20px; font-size: 14px; }
+
+.activation-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid rgb(221, 221, 221); border-radius: 10px; font-size: 16px; text-align: center; letter-spacing: 2px; }
+
+.activation-box button { width: 100%; padding: 12px; font-size: 16px; border-radius: 10px; background: rgb(220, 53, 69); }
+
+.activation-error { color: rgb(220, 53, 69); font-size: 14px; margin-top: 10px; display: none; }
+
+.activation-error.show { display: block; }
+
+.trial-info { background: rgb(255, 243, 205); padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: rgb(133, 100, 4); }
+
+.settings-btn { position: fixed; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.2); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 50%; width: 40px; height: 40px; color: white; font-size: 18px; z-index: 100; cursor: pointer; }
+
+.action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; }
+
+.action-buttons button { width: 100%; margin: 0px; padding: 8px 4px; font-size: 11px; min-height: 40px; }
+
+.compact-row td { padding: 4px 2px; vertical-align: middle; }
+
+.compact-row input { padding: 3px; font-size: 11px; }
+
+.send-all-progress { background: rgb(227, 242, 253); padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: center; font-size: 13px; display: none; }
+
+.send-all-progress.active { display: block; }
+
+.progress-bar { width: 100%; height: 8px; background: rgb(221, 221, 221); border-radius: 4px; margin-top: 8px; overflow: hidden; }
+
+.progress-fill { height: 100%; background: rgb(43, 140, 94); width: 0%; transition: width 0.3s; }
+
+@media (max-width: 700px) {
+  th, td { font-size: 10px; padding: 4px 2px; }
+  input { width: 55px; font-size: 10px; }
+  button { padding: 4px 6px; font-size: 10px; }
+  .header h1 { font-size: 18px; }
+  .card-title { font-size: 16px; }
+  .action-buttons button { font-size: 10px; padding: 6px 2px; }
+  .total-debt-box { font-size: 14px; }
+}
+
+@media (max-width: 400px) {
+  .action-buttons button { font-size: 9px; padding: 5px 2px; }
+}
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000; }
+.modal-overlay.active { display:flex; }
+.modal { background:white; padding:20px; border-radius:12px; width:90%; max-width:400px; }
+.action-buttons { display:flex; gap:4px; flex-wrap:wrap; }
+.compact-row input { border:1px solid #ccc; border-radius:4px; padding:2px 4px; }
+.touch-btn { cursor:pointer; padding:6px 10px; border:none; border-radius:6px; background:#2b8c5e; color:white; margin:2px; }
+.btn-wa { background:#25D366 !important; }
+.btn-sms { background:#2196F3 !important; }
+.btn-danger { background:#e53935 !important; }
+.btn-save-cloud { background:#FF9800 !important; }
+.btn-save-local { background:#1E88E5 !important; }
+.total-debt-box { background:white; padding:15px; border-radius:10px; margin:10px 0; text-align:center; font-weight:bold; font-size:18px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.card { background:white; padding:15px; border-radius:10px; margin:10px 0; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+.header { text-align:center; color:white; margin:10px 0; }
+.header h1 { margin:0; }
+.table-scroll { overflow-x:auto; max-height:60vh; overflow-y:auto; }
+table { width:100%; border-collapse:collapse; }
+th, td { padding:6px; border-bottom:1px solid #eee; text-align:center; font-size:13px; }
+th { background:#f5f5f5; position:sticky; top:0; }
+.footer { text-align:center; color:white; margin:15px 0; }
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:white; padding:10px 20px; border-radius:8px; display:none; z-index:2000; }
+.search-box { display:flex; gap:6px; flex-wrap:wrap; }
+.sync-status { padding:8px; border-radius:6px; text-align:center; margin-bottom:8px; }
+.button-group { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
+.filter-buttons { display:flex; gap:6px; flex-wrap:wrap; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+<div class="container" id="mainContent">
+    <div class="header">
+        <h1>👑 صيدلية الشفاء المركزية</h1>
+        <p>نظام إدارة العملاء والديون - الحفظ المحلي</p>
+    </div>
+    <div class="total-debt-box" id="totalDebtBox">💰 إجمالي الديون: 0 ريال</div>
+
+    <div class="card">
+        <div class="card-title">🔍 بحث سريع</div>
+        <div class="search-box">
+            <input type="text" id="searchId" placeholder="بحث برقم العميل">
+            <input type="text" id="searchName" placeholder="بحث باسم العميل">
+            <button class="touch-btn" onclick="doSearch()">🔍 بحث</button>
+            <button class="touch-btn" onclick="clearSearch()">🗑️ مسح</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">📊 الفلترة</div>
+        <div class="filter-buttons">
+            <button id="showAllBtn" style="background:#2b8c5e; color:white;" class="touch-btn" onclick="showAll()">👥 عرض جميع العملاء</button>
+            <button id="showMovementBtn" style="background:#FF9800; color:white; opacity:0.6;" class="touch-btn" onclick="showMovement()">📊 عملاء الحركة اليومية فقط</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">💾 نظام الحفظ - محلي + سحابي اختياري</div>
+        <div class="sync-status" id="syncStatus" style="background:#e8f5e9; color:#2e7d32;">✅ الحفظ المحلي نشط - البيانات محفوظة داخل المتصفح (LocalStorage)</div>
+        <div class="button-group">
+            <button class="btn-save-local touch-btn" onclick="saveLocal()">💾 حفظ محلي (داخل الملف/المتصفح)</button>
+            <button class="btn-save-cloud touch-btn" onclick="uploadToGoogle()">☁️ رفع إلى سيرفر جوجل (Firebase)</button>
+            <button class="touch-btn" onclick="downloadBackup()">📥 تحميل نسخة احتياطية JSON</button>
+            <button class="touch-btn" style="background:#607D8B;" onclick="restoreFromCloud()">📥 استرجاع من جوجل</button>
+        </div>
+        <div id="cloudMsg" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+        <p style="font-size:12px; color:#666; text-align:center; margin-top:8px;">الحفظ المحلي يعني البيانات تبقى في جهازك حتى بدون إنترنت. خيار جوجل اختياري للنسخ الاحتياطي.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">👥 العملاء والحركة اليومية</div>
+        <div class="stats" id="stats"></div>
+        <div class="table-scroll"><div id="customersTable"></div></div>
+        <div class="button-group" style="margin-top:10px;">
+            <button class="touch-btn" onclick="openAddModal()">➕ إضافة عميل</button>
+            <button class="touch-btn" style="background:#2e7d32;" onclick="exportExcel()">📊 تصدير Excel منظم</button>
+            <button class="btn-send-all touch-btn" style="background:#25D366;" onclick="openSendAllModal()">📱 إرسال للكل</button>
+        </div>
+    </div>
+
+    <div class="footer">صيدلية الشفاء المركزية - تعز - الحوبان - مدخل البريد - 774410166</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="settings-btn" id="settingsBtn" onclick="openSettingsModal()" style="position:fixed; top:10px; right:10px; background:#333; color:white; border:none; padding:8px 12px; border-radius:50%; cursor:pointer; z-index:500;">⚙️</button>
+
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal" style="max-width:500px; width:95%;">
+        <h3>⚙️ إعدادات Firebase (سيرفر جوجل)</h3>
+        <p style="font-size:12px; color:#666;">الصق إعدادات Firebase من console.firebase.google.com</p>
+        <textarea id="firebaseConfigInput" placeholder='{"apiKey":"...","authDomain":"...","databaseURL":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}' style="width:100%; height:120px; padding:8px; border:1px solid #ddd; border-radius:8px; font-size:11px; direction:ltr; text-align:left;"></textarea>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+            <input type="text" id="cfg_apiKey" placeholder="apiKey" style="flex:1; min-width:120px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="cfg_authDomain" placeholder="authDomain" style="flex:1; min-width:120px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+            <input type="text" id="cfg_databaseURL" placeholder="databaseURL" style="flex:1; min-width:120px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="cfg_projectId" placeholder="projectId" style="flex:1; min-width:120px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+            <input type="text" id="cfg_storageBucket" placeholder="storageBucket" style="flex:1; padding:6px; border:1px solid #ddd; border-radius:6px;">
+            <input type="text" id="cfg_messagingSenderId" placeholder="messagingSenderId" style="flex:1; padding:6px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <input type="text" id="cfg_appId" placeholder="appId" style="width:100%; margin-top:6px; padding:6px; border:1px solid #ddd; border-radius:6px;">
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:12px;">
+            <button class="touch-btn" onclick="saveFirebaseConfig()" style="background:#2b8c5e;">💾 حفظ الإعدادات</button>
+            <button class="touch-btn" onclick="testFirebaseConfig()" style="background:#1E88E5;">🧪 اختبار الاتصال</button>
+            <button class="touch-btn" style="background:#999;" onclick="closeSettingsModal()">❌ إغلاق</button>
+        </div>
+        <div id="settingsMsg" style="margin-top:8px; font-size:12px; text-align:center;"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="addCustomerModal">
+    <div class="modal">
+        <h3>➕ إضافة عميل جديد</h3>
+        <input type="text" id="newCustomerName" placeholder="📝 اسم العميل" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+        <input type="text" id="newCustomerPhone" placeholder="📞 رقم الهاتف" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px;">
+        <div style="display:flex; gap:8px; justify-content:center;">
+            <button class="touch-btn" onclick="addCustomer()">✅ إضافة</button>
+            <button class="touch-btn" style="background:#999;" onclick="closeAddModal()">❌ إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="messageModal">
+    <div class="modal">
+        <h3>📨 إرسال إشعار</h3>
+        <p id="modalMessage" style="white-space:pre-wrap; line-height:1.6; background:#f9f9f9; padding:10px; border-radius:8px;"></p>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:12px;">
+            <button class="touch-btn btn-wa" onclick="sendWhatsAppCurrent()">📱 واتساب</button>
+            <button class="touch-btn btn-sms" onclick="sendSmsCurrent()">✉️ رسالة</button>
+            <button class="touch-btn" style="background:#999;" onclick="closeMessageModal()">❌ إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="sendAllModal">
+    <div class="modal">
+        <h3>📱 إرسال رسائل واتساب للكل</h3>
+        <p>سيتم إرسال رسائل تذكير لجميع العملاء الذين لديهم ديون</p>
+        <div style="display:flex; gap:8px; justify-content:center;">
+            <button class="touch-btn btn-wa" onclick="sendAll()">📱 بدء الإرسال</button>
+            <button class="touch-btn" style="background:#999;" onclick="closeSendAllModal()">❌ إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Embedded initial data
+const initialCustomers = [
+  {
+    "id": "2",
+    "name": "فھمي انور",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "3",
+    "name": "فیصل الوصابي",
+    "phone": "739453052",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "4",
+    "name": "ادم احمد العدنھ",
+    "phone": "772381292",
+    "balance": "46269.4",
+    "debt": "0",
+    "paid": "0",
+    "new": "46,269.4"
+  },
+  {
+    "id": "5",
+    "name": "ناجي مسعد",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "6",
+    "name": "عبدﷲ المروسي",
+    "phone": "711258371",
+    "balance": "747640",
+    "debt": "0",
+    "paid": "0",
+    "new": "747,640"
+  },
+  {
+    "id": "7",
+    "name": "عیادة الرضوان",
+    "phone": "738888215",
+    "balance": "65710",
+    "debt": "0",
+    "paid": "0",
+    "new": "65,710"
+  },
+  {
+    "id": "8",
+    "name": "محمد طاھر الھلالي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "9",
+    "name": "فؤاد الجنتیل",
+    "phone": "777874066",
+    "balance": "3350",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,350"
+  },
+  {
+    "id": "10",
+    "name": "انور محمد السروري ٧٧٨٩٠٤٩٠١",
+    "phone": "778904901",
+    "balance": "2200",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,200"
+  },
+  {
+    "id": "11",
+    "name": "فیصل اخ مسعود العطور",
+    "phone": "737905632",
+    "balance": "9011",
+    "debt": "0",
+    "paid": "0",
+    "new": "9,011"
+  },
+  {
+    "id": "12",
+    "name": "عبدﷲ الحكیمي",
+    "phone": "735574604",
+    "balance": "3186",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,186"
+  },
+  {
+    "id": "13",
+    "name": "السلطان",
+    "phone": "771868081",
+    "balance": "9590",
+    "debt": "0",
+    "paid": "0",
+    "new": "9,590"
+  },
+  {
+    "id": "14",
+    "name": "نصر الوصابي",
+    "phone": "737897186",
+    "balance": "19005",
+    "debt": "0",
+    "paid": "0",
+    "new": "19,005"
+  },
+  {
+    "id": "15",
+    "name": "نادر طاھر",
+    "phone": "733800509",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "16",
+    "name": "ھارون الشیخ",
+    "phone": "772832969",
+    "balance": "22161",
+    "debt": "0",
+    "paid": "0",
+    "new": "22,161"
+  },
+  {
+    "id": "17",
+    "name": "علي حمود",
+    "phone": "",
+    "balance": "200",
+    "debt": "0",
+    "paid": "0",
+    "new": "200"
+  },
+  {
+    "id": "18",
+    "name": "جمیل العاقل",
+    "phone": "737336483",
+    "balance": "23493",
+    "debt": "0",
+    "paid": "0",
+    "new": "23,493"
+  },
+  {
+    "id": "19",
+    "name": "ام عزوز",
+    "phone": "774832262",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "20",
+    "name": "امین البعداني",
+    "phone": "733717706",
+    "balance": "6045",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,045"
+  },
+  {
+    "id": "21",
+    "name": "ھاني السامعي",
+    "phone": "",
+    "balance": "540",
+    "debt": "0",
+    "paid": "0",
+    "new": "540"
+  },
+  {
+    "id": "22",
+    "name": "عبدالسلام المھاجري",
+    "phone": "774745171",
+    "balance": "7440",
+    "debt": "0",
+    "paid": "0",
+    "new": "7,440"
+  },
+  {
+    "id": "23",
+    "name": "زید المقوت",
+    "phone": "772584917",
+    "balance": "20",
+    "debt": "0",
+    "paid": "0",
+    "new": "20"
+  },
+  {
+    "id": "24",
+    "name": "الدكتور . منصور",
+    "phone": "",
+    "balance": "11560",
+    "debt": "0",
+    "paid": "0",
+    "new": "11,560"
+  },
+  {
+    "id": "25",
+    "name": "عبدالعزیز الزیلعي",
+    "phone": "",
+    "balance": "1",
+    "debt": "0",
+    "paid": "0",
+    "new": "1"
+  },
+  {
+    "id": "26",
+    "name": "انور القدسي",
+    "phone": "773504270",
+    "balance": "3780",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,780"
+  },
+  {
+    "id": "27",
+    "name": "یاسر العزب",
+    "phone": "771750831",
+    "balance": "20536",
+    "debt": "0",
+    "paid": "0",
+    "new": "20,536"
+  },
+  {
+    "id": "28",
+    "name": "یاسر العامرى",
+    "phone": "777836168",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "29",
+    "name": "محمد العزب",
+    "phone": "770876440",
+    "balance": "960",
+    "debt": "0",
+    "paid": "0",
+    "new": "960"
+  },
+  {
+    "id": "30",
+    "name": "العاقل عبده یحي",
+    "phone": "774787324",
+    "balance": "11008",
+    "debt": "0",
+    "paid": "0",
+    "new": "11,008"
+  },
+  {
+    "id": "31",
+    "name": "محمد الوصابي",
+    "phone": "770757770",
+    "balance": "2200",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,200"
+  },
+  {
+    "id": "32",
+    "name": "منیر البقالة",
+    "phone": "770227580",
+    "balance": "14120",
+    "debt": "0",
+    "paid": "0",
+    "new": "14,120"
+  },
+  {
+    "id": "33",
+    "name": "وداد شركة امیرالدین",
+    "phone": "776585052",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "34",
+    "name": "صالح الزماني",
+    "phone": "774243124",
+    "balance": "90",
+    "debt": "0",
+    "paid": "0",
+    "new": "90"
+  },
+  {
+    "id": "35",
+    "name": "محمد صبحي",
+    "phone": "733778860",
+    "balance": "442",
+    "debt": "0",
+    "paid": "0",
+    "new": "442"
+  },
+  {
+    "id": "36",
+    "name": "ایاد القباطي",
+    "phone": "",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "37",
+    "name": "سامي الابیض خ",
+    "phone": "730113577",
+    "balance": "5595",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,595"
+  },
+  {
+    "id": "38",
+    "name": "علي الطاحون",
+    "phone": "",
+    "balance": "1958",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,958"
+  },
+  {
+    "id": "39",
+    "name": "عمار عبده",
+    "phone": "775253185",
+    "balance": "22250",
+    "debt": "0",
+    "paid": "0",
+    "new": "22,250"
+  },
+  {
+    "id": "40",
+    "name": "رھیبة اخت محمد صادق",
+    "phone": "771345718",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "41",
+    "name": "ام محمد/ص/ام رھام",
+    "phone": "967734953616",
+    "balance": "7140",
+    "debt": "0",
+    "paid": "0",
+    "new": "7,140"
+  },
+  {
+    "id": "42",
+    "name": "ھیثم السامعي",
+    "phone": "775908469",
+    "balance": "1580",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,580"
+  },
+  {
+    "id": "43",
+    "name": "جواد العریقي",
+    "phone": "735439857",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "44",
+    "name": "عمر محمد عبدﷲ المخیط",
+    "phone": "771924503",
+    "balance": "511",
+    "debt": "0",
+    "paid": "0",
+    "new": "511"
+  },
+  {
+    "id": "45",
+    "name": "محمد السامعي الانیق",
+    "phone": "",
+    "balance": "-50",
+    "debt": "0",
+    "paid": "0",
+    "new": "-50"
+  },
+  {
+    "id": "46",
+    "name": "عمران  العاقل",
+    "phone": "967772565384",
+    "balance": "5426",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,426"
+  },
+  {
+    "id": "47",
+    "name": "حامد القدسي",
+    "phone": "773838023",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "48",
+    "name": "عدنان المقطري",
+    "phone": "736682903",
+    "balance": "3560",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,560"
+  },
+  {
+    "id": "49",
+    "name": "عبدالفتاح المسافر",
+    "phone": "776706377",
+    "balance": "47173",
+    "debt": "0",
+    "paid": "0",
+    "new": "47,173"
+  },
+  {
+    "id": "50",
+    "name": "ماجد الوصابي",
+    "phone": "735984041",
+    "balance": "18700",
+    "debt": "0",
+    "paid": "0",
+    "new": "18,700"
+  },
+  {
+    "id": "51",
+    "name": "ناصر العتمي",
+    "phone": "736379838",
+    "balance": "19580",
+    "debt": "0",
+    "paid": "0",
+    "new": "19,580"
+  },
+  {
+    "id": "52",
+    "name": "فواد القباطي الادوات المنزلیھ",
+    "phone": "",
+    "balance": "330",
+    "debt": "0",
+    "paid": "0",
+    "new": "330"
+  },
+  {
+    "id": "53",
+    "name": "توفیق الطلي",
+    "phone": "711996552",
+    "balance": "63604",
+    "debt": "0",
+    "paid": "0",
+    "new": "63,604"
+  },
+  {
+    "id": "54",
+    "name": "امین قاسم عبدة",
+    "phone": "717176722",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "55",
+    "name": "زكي الخیاط",
+    "phone": "735776164",
+    "balance": "2159",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,159"
+  },
+  {
+    "id": "58",
+    "name": "ام ربیع الدكتور",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "60",
+    "name": "ھاني الاثوري",
+    "phone": "775867943",
+    "balance": "4720",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,720"
+  },
+  {
+    "id": "61",
+    "name": "منیر الحمیري",
+    "phone": "734200897",
+    "balance": "20640",
+    "debt": "0",
+    "paid": "0",
+    "new": "20,640"
+  },
+  {
+    "id": "62",
+    "name": "ایمن الوكلاء",
+    "phone": "772900755",
+    "balance": "1100",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,100"
+  },
+  {
+    "id": "63",
+    "name": "ولید الزماني",
+    "phone": "777614827",
+    "balance": "13335",
+    "debt": "0",
+    "paid": "0",
+    "new": "13,335"
+  },
+  {
+    "id": "64",
+    "name": "بشیر القدسي",
+    "phone": "777484882",
+    "balance": "32300",
+    "debt": "0",
+    "paid": "0",
+    "new": "32,300"
+  },
+  {
+    "id": "65",
+    "name": "فھمي العریقي الخیاط",
+    "phone": "735430363",
+    "balance": "5350",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,350"
+  },
+  {
+    "id": "66",
+    "name": "محمد حمود النقیل",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "67",
+    "name": "موید بیت طاھر",
+    "phone": "775389495",
+    "balance": "2300",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,300"
+  },
+  {
+    "id": "68",
+    "name": "ام التوم",
+    "phone": "779660862",
+    "balance": "29175",
+    "debt": "0",
+    "paid": "0",
+    "new": "29,175"
+  },
+  {
+    "id": "69",
+    "name": "حسن ابو صلاح",
+    "phone": "770012927",
+    "balance": "2874",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,874"
+  },
+  {
+    "id": "70",
+    "name": "محمد الشیخ",
+    "phone": "770739977",
+    "balance": "18560",
+    "debt": "0",
+    "paid": "0",
+    "new": "18,560"
+  },
+  {
+    "id": "71",
+    "name": "عفیف بشر",
+    "phone": "774452030",
+    "balance": "40",
+    "debt": "0",
+    "paid": "0",
+    "new": "40"
+  },
+  {
+    "id": "72",
+    "name": "یزید الشیخ",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "73",
+    "name": "عبدالكریم الجرموزي",
+    "phone": "",
+    "balance": "1330",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,330"
+  },
+  {
+    "id": "74",
+    "name": "ع/مالك زاھر",
+    "phone": "772698592",
+    "balance": "1130",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,130"
+  },
+  {
+    "id": "75",
+    "name": "احمد مراد",
+    "phone": "772696993",
+    "balance": "22580",
+    "debt": "0",
+    "paid": "0",
+    "new": "22,580"
+  },
+  {
+    "id": "77",
+    "name": "محمد فؤاد",
+    "phone": "775035629",
+    "balance": "3000",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,000"
+  },
+  {
+    "id": "78",
+    "name": "عبدﷲ الوصابي",
+    "phone": "",
+    "balance": "981",
+    "debt": "0",
+    "paid": "0",
+    "new": "981"
+  },
+  {
+    "id": "79",
+    "name": "رضون صادق",
+    "phone": "772993070",
+    "balance": "-50",
+    "debt": "0",
+    "paid": "0",
+    "new": "-50"
+  },
+  {
+    "id": "80",
+    "name": "ابراھیم طاھر",
+    "phone": "771916097",
+    "balance": "81040",
+    "debt": "0",
+    "paid": "0",
+    "new": "81,040"
+  },
+  {
+    "id": "82",
+    "name": "عزام العبسي",
+    "phone": "778304041",
+    "balance": "9080",
+    "debt": "0",
+    "paid": "0",
+    "new": "9,080"
+  },
+  {
+    "id": "83",
+    "name": "حمزه الشرماني",
+    "phone": "737114217",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "84",
+    "name": "نصر باحمیدو",
+    "phone": "770012252",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "85",
+    "name": "طارق عبده محمد",
+    "phone": "773235160",
+    "balance": "550",
+    "debt": "0",
+    "paid": "0",
+    "new": "550"
+  },
+  {
+    "id": "86",
+    "name": "ام عبدالملك یحي مطھر",
+    "phone": "",
+    "balance": "10",
+    "debt": "0",
+    "paid": "0",
+    "new": "10"
+  },
+  {
+    "id": "87",
+    "name": "نبیل البھارات",
+    "phone": "773843451",
+    "balance": "4581",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,581"
+  },
+  {
+    "id": "88",
+    "name": "صیدلیة الفتح",
+    "phone": "777112688",
+    "balance": "3045",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,045"
+  },
+  {
+    "id": "90",
+    "name": "محمد الشرعبي",
+    "phone": "",
+    "balance": "-1",
+    "debt": "0",
+    "paid": "0",
+    "new": "-1"
+  },
+  {
+    "id": "92",
+    "name": "كمال الاصبحي",
+    "phone": "771550356",
+    "balance": "15190",
+    "debt": "0",
+    "paid": "0",
+    "new": "15,190"
+  },
+  {
+    "id": "93",
+    "name": "عبدﷲ شیبان",
+    "phone": "777458368",
+    "balance": "267235",
+    "debt": "0",
+    "paid": "0",
+    "new": "267,235"
+  },
+  {
+    "id": "94",
+    "name": "ع/عصام الشرعبي",
+    "phone": "717601593",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "95",
+    "name": "المحامي عبدالرحمن",
+    "phone": "",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "96",
+    "name": "كارم القباطي",
+    "phone": "777519234",
+    "balance": "5099",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,099"
+  },
+  {
+    "id": "97",
+    "name": "مروان الغرباني",
+    "phone": "775935667",
+    "balance": "1500",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,500"
+  },
+  {
+    "id": "98",
+    "name": "عبدالجلیل التركي",
+    "phone": "",
+    "balance": "10",
+    "debt": "0",
+    "paid": "0",
+    "new": "10"
+  },
+  {
+    "id": "100",
+    "name": "حنین موظفة عیادة الصامت",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "101",
+    "name": "عبدﷲ فارع قاسم",
+    "phone": "715182295",
+    "balance": "30000",
+    "debt": "0",
+    "paid": "0",
+    "new": "30,000"
+  },
+  {
+    "id": "102",
+    "name": "امین  القدسي",
+    "phone": "772900755",
+    "balance": "4300",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,300"
+  },
+  {
+    "id": "103",
+    "name": "بسام الضباب",
+    "phone": "",
+    "balance": "-47",
+    "debt": "0",
+    "paid": "0",
+    "new": "-47"
+  },
+  {
+    "id": "105",
+    "name": "صیدلیة الباشا",
+    "phone": "967733227781",
+    "balance": "100",
+    "debt": "0",
+    "paid": "0",
+    "new": "100"
+  },
+  {
+    "id": "106",
+    "name": "احمد الزماني",
+    "phone": "777745704",
+    "balance": "600",
+    "debt": "0",
+    "paid": "0",
+    "new": "600"
+  },
+  {
+    "id": "108",
+    "name": "عم الدكتور مختار",
+    "phone": "777165316",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "109",
+    "name": "بسام الشرماني",
+    "phone": "772646060",
+    "balance": "2240",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,240"
+  },
+  {
+    "id": "110",
+    "name": "حسن الطباخ",
+    "phone": "770370211",
+    "balance": "20498",
+    "debt": "0",
+    "paid": "0",
+    "new": "20,498"
+  },
+  {
+    "id": "111",
+    "name": "صیدلیھ طربوش",
+    "phone": "738353799",
+    "balance": "8810",
+    "debt": "0",
+    "paid": "0",
+    "new": "8,810"
+  },
+  {
+    "id": "112",
+    "name": "یاسین الصبري",
+    "phone": "775621971",
+    "balance": "2240",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,240"
+  },
+  {
+    "id": "113",
+    "name": "ع/سلیم میثاق",
+    "phone": "736935368",
+    "balance": "28440",
+    "debt": "0",
+    "paid": "0",
+    "new": "28,440"
+  },
+  {
+    "id": "114",
+    "name": "ام شادي",
+    "phone": "713527337",
+    "balance": "5720",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,720"
+  },
+  {
+    "id": "115",
+    "name": "ھشام الحكیمي",
+    "phone": "770464506",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "116",
+    "name": "مصاریف نثریھ دكتور منصور",
+    "phone": "",
+    "balance": "-1",
+    "debt": "0",
+    "paid": "0",
+    "new": "-1"
+  },
+  {
+    "id": "118",
+    "name": "الدكتور محمد ھزاع",
+    "phone": "",
+    "balance": "700",
+    "debt": "0",
+    "paid": "0",
+    "new": "700"
+  },
+  {
+    "id": "120",
+    "name": "محمد القرھمي",
+    "phone": "770994084",
+    "balance": "24700",
+    "debt": "0",
+    "paid": "0",
+    "new": "24,700"
+  },
+  {
+    "id": "121",
+    "name": "ع/ محمد صادق العریقي",
+    "phone": "780002329",
+    "balance": "19850",
+    "debt": "0",
+    "paid": "0",
+    "new": "19,850"
+  },
+  {
+    "id": "122",
+    "name": "ام محمد الرضا",
+    "phone": "773399436",
+    "balance": "25759",
+    "debt": "0",
+    "paid": "0",
+    "new": "25,759"
+  },
+  {
+    "id": "123",
+    "name": "مرون صادق",
+    "phone": "735541156",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "124",
+    "name": "عبدﷲ صادق",
+    "phone": "773253822",
+    "balance": "4520",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,520"
+  },
+  {
+    "id": "126",
+    "name": "ام الحسن والحیسین",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "127",
+    "name": "صیدلیھ الشیخ",
+    "phone": "",
+    "balance": "-8450",
+    "debt": "0",
+    "paid": "0",
+    "new": "-8,450"
+  },
+  {
+    "id": "128",
+    "name": "ام بیان اخت وداد",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "129",
+    "name": "ام محمد نبیل اخت داد",
+    "phone": "",
+    "balance": "-3",
+    "debt": "0",
+    "paid": "0",
+    "new": "-3"
+  },
+  {
+    "id": "130",
+    "name": "محمد الاغبري الوكلاء",
+    "phone": "778088898",
+    "balance": "11650",
+    "debt": "0",
+    "paid": "0",
+    "new": "11,650"
+  },
+  {
+    "id": "131",
+    "name": "المطوع الفاشي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "132",
+    "name": "عزالدین عبده",
+    "phone": "773839442",
+    "balance": "34070",
+    "debt": "0",
+    "paid": "0",
+    "new": "34,070"
+  },
+  {
+    "id": "133",
+    "name": "خلدون الصبري",
+    "phone": "771119256",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "135",
+    "name": "الدكتورة مریم",
+    "phone": "",
+    "balance": "-70",
+    "debt": "0",
+    "paid": "0",
+    "new": "-70"
+  },
+  {
+    "id": "136",
+    "name": "وضاح السامعي",
+    "phone": "739926811",
+    "balance": "4080",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,080"
+  },
+  {
+    "id": "137",
+    "name": "وضاح سعید ص/وضاح",
+    "phone": "735783162",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "143",
+    "name": "امین الوصابي",
+    "phone": "775942042",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "144",
+    "name": "یسري البرنس",
+    "phone": "",
+    "balance": "10",
+    "debt": "0",
+    "paid": "0",
+    "new": "10"
+  },
+  {
+    "id": "146",
+    "name": "لطف محمد قاسم",
+    "phone": "777206743",
+    "balance": "315959",
+    "debt": "0",
+    "paid": "0",
+    "new": "315,959"
+  },
+  {
+    "id": "147",
+    "name": "بیشر قاید",
+    "phone": "715424089",
+    "balance": "48050",
+    "debt": "0",
+    "paid": "0",
+    "new": "48,050"
+  },
+  {
+    "id": "148",
+    "name": "الدكتورة ریما",
+    "phone": "967739351980",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "149",
+    "name": "علي عبدﷲ عثملن",
+    "phone": "967772768452",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "152",
+    "name": "ام محمد ماجد",
+    "phone": "",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "153",
+    "name": "لیلي مخارش",
+    "phone": "734884921",
+    "balance": "-5",
+    "debt": "0",
+    "paid": "0",
+    "new": "-5"
+  },
+  {
+    "id": "155",
+    "name": "عیادة الاسنان دنتال كیر",
+    "phone": "",
+    "balance": "477190",
+    "debt": "0",
+    "paid": "0",
+    "new": "477,190"
+  },
+  {
+    "id": "156",
+    "name": "ام مریا",
+    "phone": "730427792",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "158",
+    "name": "عمران مھیوب",
+    "phone": "775528278",
+    "balance": "18570",
+    "debt": "0",
+    "paid": "0",
+    "new": "18,570"
+  },
+  {
+    "id": "160",
+    "name": "عفاف العریقي",
+    "phone": "775513997",
+    "balance": "8430",
+    "debt": "0",
+    "paid": "0",
+    "new": "8,430"
+  },
+  {
+    "id": "161",
+    "name": "مصطفى خال الدكتور",
+    "phone": "735131246",
+    "balance": "1470",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,470"
+  },
+  {
+    "id": "162",
+    "name": "سامي عبدالمجید/صاحب كارم",
+    "phone": "",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "164",
+    "name": "ع/مھند",
+    "phone": "",
+    "balance": "5460",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,460"
+  },
+  {
+    "id": "165",
+    "name": "عمیر الصلوي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "166",
+    "name": "صیاد",
+    "phone": "",
+    "balance": "-65",
+    "debt": "0",
+    "paid": "0",
+    "new": "-65"
+  },
+  {
+    "id": "167",
+    "name": "منیف القباطي",
+    "phone": "771874575",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "168",
+    "name": "رافت العبسي",
+    "phone": "",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "169",
+    "name": "ع/بلیغ محمد احمد",
+    "phone": "",
+    "balance": "5852",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,852"
+  },
+  {
+    "id": "170",
+    "name": "یحي الزبیري",
+    "phone": "774733512",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "171",
+    "name": "فواد حسان",
+    "phone": "770997213",
+    "balance": "300",
+    "debt": "0",
+    "paid": "0",
+    "new": "300"
+  },
+  {
+    "id": "172",
+    "name": "ع/محمد خالد",
+    "phone": "",
+    "balance": "100",
+    "debt": "0",
+    "paid": "0",
+    "new": "100"
+  },
+  {
+    "id": "173",
+    "name": "ام عبود",
+    "phone": "",
+    "balance": "100",
+    "debt": "0",
+    "paid": "0",
+    "new": "100"
+  },
+  {
+    "id": "174",
+    "name": "ع/سمیر",
+    "phone": "",
+    "balance": "10",
+    "debt": "0",
+    "paid": "0",
+    "new": "10"
+  },
+  {
+    "id": "176",
+    "name": "ضمانة الدكتور",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "177",
+    "name": "درھم خالد",
+    "phone": "771179177",
+    "balance": "5570",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,570"
+  },
+  {
+    "id": "178",
+    "name": "بنت القباطي",
+    "phone": "772575306",
+    "balance": "-57",
+    "debt": "0",
+    "paid": "0",
+    "new": "-57"
+  },
+  {
+    "id": "179",
+    "name": "جلال العتابي",
+    "phone": "716443677",
+    "balance": "47044",
+    "debt": "0",
+    "paid": "0",
+    "new": "47,044"
+  },
+  {
+    "id": "180",
+    "name": "محمود الصبري",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "181",
+    "name": "روف العبسي",
+    "phone": "770455282",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "182",
+    "name": "عمار الكبودي",
+    "phone": "739047810",
+    "balance": "7810",
+    "debt": "0",
+    "paid": "0",
+    "new": "7,810"
+  },
+  {
+    "id": "183",
+    "name": "منصر فني اسنان",
+    "phone": "967739504319",
+    "balance": "-75",
+    "debt": "0",
+    "paid": "0",
+    "new": "-75"
+  },
+  {
+    "id": "184",
+    "name": "عبدﷲ حسن",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "186",
+    "name": "عبداللطیف فرحان",
+    "phone": "777626191",
+    "balance": "10433",
+    "debt": "0",
+    "paid": "0",
+    "new": "10,433"
+  },
+  {
+    "id": "187",
+    "name": "شعیب الزبیدي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "188",
+    "name": "جوھرل الجعیدي",
+    "phone": "779659909",
+    "balance": "6403",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,403"
+  },
+  {
+    "id": "189",
+    "name": "جمال ناجي",
+    "phone": "778080370",
+    "balance": "1710",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,710"
+  },
+  {
+    "id": "190",
+    "name": "احمد السید",
+    "phone": "",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "191",
+    "name": "محمد عبدة صالح",
+    "phone": "774365858",
+    "balance": "43850",
+    "debt": "0",
+    "paid": "0",
+    "new": "43,850"
+  },
+  {
+    "id": "192",
+    "name": "عبدﷲ محسن",
+    "phone": "",
+    "balance": "-50",
+    "debt": "0",
+    "paid": "0",
+    "new": "-50"
+  },
+  {
+    "id": "194",
+    "name": "بلیغ عبدالفتاح",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "195",
+    "name": "محمد الكھربائي",
+    "phone": "777451544",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "196",
+    "name": "مراد قاید",
+    "phone": "967717182968",
+    "balance": "39120",
+    "debt": "0",
+    "paid": "0",
+    "new": "39,120"
+  },
+  {
+    "id": "197",
+    "name": "فارس احمد شایف",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "198",
+    "name": "العاقل صاحب ھارون",
+    "phone": "",
+    "balance": "300",
+    "debt": "0",
+    "paid": "0",
+    "new": "300"
+  },
+  {
+    "id": "202",
+    "name": "شوقي الكھرباي",
+    "phone": "",
+    "balance": "241",
+    "debt": "0",
+    "paid": "0",
+    "new": "241"
+  },
+  {
+    "id": "204",
+    "name": "محمد احمد قاسم",
+    "phone": "",
+    "balance": "490",
+    "debt": "0",
+    "paid": "0",
+    "new": "490"
+  },
+  {
+    "id": "205",
+    "name": "عبدالشیخ",
+    "phone": "770068713",
+    "balance": "64981",
+    "debt": "0",
+    "paid": "0",
+    "new": "64,981"
+  },
+  {
+    "id": "206",
+    "name": "عمر العامري الزیلعي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "207",
+    "name": "ابو فارس الحكیمي",
+    "phone": "",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "208",
+    "name": "جمال جسار",
+    "phone": "777942648",
+    "balance": "6020",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,020"
+  },
+  {
+    "id": "209",
+    "name": "عادل حسن بالغیث",
+    "phone": "",
+    "balance": "100",
+    "debt": "0",
+    "paid": "0",
+    "new": "100"
+  },
+  {
+    "id": "210",
+    "name": "ام ابرھیم الوصابي",
+    "phone": "770843608",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "211",
+    "name": "نجیب الصامت",
+    "phone": "772629955",
+    "balance": "4020",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,020"
+  },
+  {
+    "id": "214",
+    "name": "نبیل الطباخ",
+    "phone": "967773743060",
+    "balance": "10336",
+    "debt": "0",
+    "paid": "0",
+    "new": "10,336"
+  },
+  {
+    "id": "215",
+    "name": "عبدة غالب العتابي",
+    "phone": "777265467",
+    "balance": "6881",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,881"
+  },
+  {
+    "id": "217",
+    "name": "الوالد قاید",
+    "phone": "",
+    "balance": "272710",
+    "debt": "0",
+    "paid": "0",
+    "new": "272,710"
+  },
+  {
+    "id": "218",
+    "name": "ام ملاك",
+    "phone": "",
+    "balance": "-5",
+    "debt": "0",
+    "paid": "0",
+    "new": "-5"
+  },
+  {
+    "id": "219",
+    "name": "ام محمد عبده",
+    "phone": "",
+    "balance": "125",
+    "debt": "0",
+    "paid": "0",
+    "new": "125"
+  },
+  {
+    "id": "220",
+    "name": "فواد الطاحون",
+    "phone": "",
+    "balance": "4380",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,380"
+  },
+  {
+    "id": "221",
+    "name": "بدر الجنید",
+    "phone": "734738162",
+    "balance": "10713",
+    "debt": "0",
+    "paid": "0",
+    "new": "10,713"
+  },
+  {
+    "id": "222",
+    "name": "عاصم النفس",
+    "phone": "",
+    "balance": "1",
+    "debt": "0",
+    "paid": "0",
+    "new": "1"
+  },
+  {
+    "id": "223",
+    "name": "مطھر الحبابیبي",
+    "phone": "",
+    "balance": "60",
+    "debt": "0",
+    "paid": "0",
+    "new": "60"
+  },
+  {
+    "id": "224",
+    "name": "عبدالرحمن الشرعبي بسطھ",
+    "phone": "",
+    "balance": "-82",
+    "debt": "0",
+    "paid": "0",
+    "new": "-82"
+  },
+  {
+    "id": "225",
+    "name": "عبدالحكیم الشرعبي",
+    "phone": "774390850",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "226",
+    "name": "فواد الشرعبي",
+    "phone": "774242271",
+    "balance": "3350",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,350"
+  },
+  {
+    "id": "227",
+    "name": "ھیثم الخیاط",
+    "phone": "",
+    "balance": "-200",
+    "debt": "0",
+    "paid": "0",
+    "new": "-200"
+  },
+  {
+    "id": "228",
+    "name": "ام براءه",
+    "phone": "735718544",
+    "balance": "6528",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,528"
+  },
+  {
+    "id": "229",
+    "name": "بسام الخیاط",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "230",
+    "name": "غازي الشرفي",
+    "phone": "778072948",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "231",
+    "name": "مختار البوالط",
+    "phone": "777404047",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "232",
+    "name": "علي القدسي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "233",
+    "name": "خالد احمد مثنى",
+    "phone": "",
+    "balance": "50",
+    "debt": "0",
+    "paid": "0",
+    "new": "50"
+  },
+  {
+    "id": "234",
+    "name": "ماجد المقوت",
+    "phone": "774147703",
+    "balance": "1860",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,860"
+  },
+  {
+    "id": "235",
+    "name": "عبدالكریم الكوفیھ",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "236",
+    "name": "عبدالغني الخیاط",
+    "phone": "",
+    "balance": "1508",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,508"
+  },
+  {
+    "id": "238",
+    "name": "ایناس اخت ام ماریا",
+    "phone": "773473140",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "239",
+    "name": "ام جابر",
+    "phone": "",
+    "balance": "203",
+    "debt": "0",
+    "paid": "0",
+    "new": "203"
+  },
+  {
+    "id": "240",
+    "name": "اختیار سیف",
+    "phone": "730329017",
+    "balance": "8720",
+    "debt": "0",
+    "paid": "0",
+    "new": "8,720"
+  },
+  {
+    "id": "241",
+    "name": "ام عمار",
+    "phone": "736456288",
+    "balance": "60926",
+    "debt": "0",
+    "paid": "0",
+    "new": "60,926"
+  },
+  {
+    "id": "242",
+    "name": "محمد امین راجح",
+    "phone": "774945642",
+    "balance": "4730",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,730"
+  },
+  {
+    "id": "247",
+    "name": "عماد السامعي الطاحون",
+    "phone": "733387523",
+    "balance": "9900",
+    "debt": "0",
+    "paid": "0",
+    "new": "9,900"
+  },
+  {
+    "id": "250",
+    "name": "صلاح الوصابي",
+    "phone": "738547672",
+    "balance": "1490",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,490"
+  },
+  {
+    "id": "252",
+    "name": "نواف الشمیري",
+    "phone": "738887035",
+    "balance": "4809",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,809"
+  },
+  {
+    "id": "253",
+    "name": "یحي عبدالحكیم",
+    "phone": "774613137",
+    "balance": "5055",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,055"
+  },
+  {
+    "id": "258",
+    "name": "احمد فواد الجنتیل",
+    "phone": "774999773",
+    "balance": "5340",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,340"
+  },
+  {
+    "id": "263",
+    "name": "عبدالجبار الصبري",
+    "phone": "784847642",
+    "balance": "6425",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,425"
+  },
+  {
+    "id": "264",
+    "name": "فھد عبده حسین",
+    "phone": "",
+    "balance": "240",
+    "debt": "0",
+    "paid": "0",
+    "new": "240"
+  },
+  {
+    "id": "266",
+    "name": "نائل البشیري",
+    "phone": "736394007",
+    "balance": "6410",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,410"
+  },
+  {
+    "id": "270",
+    "name": "كاظم الوكلاء",
+    "phone": "967739819674",
+    "balance": "4720",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,720"
+  },
+  {
+    "id": "271",
+    "name": "نوافل رشاد جار لطف",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "275",
+    "name": "انس الوافي",
+    "phone": "713719948",
+    "balance": "13590",
+    "debt": "0",
+    "paid": "0",
+    "new": "13,590"
+  },
+  {
+    "id": "277",
+    "name": "محمد احمد الوصابي",
+    "phone": "736313599",
+    "balance": "2540",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,540"
+  },
+  {
+    "id": "278",
+    "name": "ام عدي",
+    "phone": "967739497152",
+    "balance": "18340",
+    "debt": "0",
+    "paid": "0",
+    "new": "18,340"
+  },
+  {
+    "id": "279",
+    "name": "سیف الشرعبي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "280",
+    "name": "رضوان داؤود",
+    "phone": "777087271",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "281",
+    "name": "باسم الخیاط",
+    "phone": "734694830",
+    "balance": "4200",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,200"
+  },
+  {
+    "id": "282",
+    "name": "زیاد امین راجح",
+    "phone": "770454903",
+    "balance": "19760",
+    "debt": "0",
+    "paid": "0",
+    "new": "19,760"
+  },
+  {
+    "id": "283",
+    "name": "ام انس ممرضھ منصور السامعي",
+    "phone": "730467372",
+    "balance": "900",
+    "debt": "0",
+    "paid": "0",
+    "new": "900"
+  },
+  {
+    "id": "284",
+    "name": "ناجي الحوباني",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "285",
+    "name": "فواز حسن الطباخ",
+    "phone": "",
+    "balance": "2750",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,750"
+  },
+  {
+    "id": "286",
+    "name": "11111",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "287",
+    "name": "عمي عبده صالح",
+    "phone": "771443842",
+    "balance": "2510",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,510"
+  },
+  {
+    "id": "288",
+    "name": "وضاح بكیل",
+    "phone": "774410166",
+    "balance": "19607",
+    "debt": "0",
+    "paid": "0",
+    "new": "19,607"
+  },
+  {
+    "id": "289",
+    "name": "ام حسام  استاذه",
+    "phone": "",
+    "balance": "2088",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,088"
+  },
+  {
+    "id": "290",
+    "name": "علي حسن القمر",
+    "phone": "711265000",
+    "balance": "-60",
+    "debt": "0",
+    "paid": "0",
+    "new": "-60"
+  },
+  {
+    "id": "291",
+    "name": "عدنان الحالمي",
+    "phone": "",
+    "balance": "2410",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,410"
+  },
+  {
+    "id": "292",
+    "name": "فكري تابع الشرعبي",
+    "phone": "777946646",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "293",
+    "name": "معاذ القمر",
+    "phone": "777051348",
+    "balance": "1810",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,810"
+  },
+  {
+    "id": "294",
+    "name": "ام قصي",
+    "phone": "776365022",
+    "balance": "7480",
+    "debt": "0",
+    "paid": "0",
+    "new": "7,480"
+  },
+  {
+    "id": "295",
+    "name": "ع/عبدالعزیز جارات ام براءه",
+    "phone": "",
+    "balance": "500",
+    "debt": "0",
+    "paid": "0",
+    "new": "500"
+  },
+  {
+    "id": "296",
+    "name": "عطاء الطویل",
+    "phone": "",
+    "balance": "10",
+    "debt": "0",
+    "paid": "0",
+    "new": "10"
+  },
+  {
+    "id": "297",
+    "name": "زكریا القباطي",
+    "phone": "738209538",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "298",
+    "name": "حبیب أحمد قاید المروسي",
+    "phone": "772073336",
+    "balance": "83650",
+    "debt": "0",
+    "paid": "0",
+    "new": "83,650"
+  },
+  {
+    "id": "299",
+    "name": "بغداد رشاد",
+    "phone": "730523120",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "300",
+    "name": "عمر القیاطي السلطان",
+    "phone": "770565050",
+    "balance": "3050",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,050"
+  },
+  {
+    "id": "301",
+    "name": "منصور السوادي",
+    "phone": "",
+    "balance": "1000",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,000"
+  },
+  {
+    "id": "302",
+    "name": "الزوقري",
+    "phone": "736734185",
+    "balance": "15150",
+    "debt": "0",
+    "paid": "0",
+    "new": "15,150"
+  },
+  {
+    "id": "303",
+    "name": "یحي الدبعي الخیاط",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "304",
+    "name": "ام ھند ع الوصابي",
+    "phone": "",
+    "balance": "2480",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,480"
+  },
+  {
+    "id": "305",
+    "name": "ام محمد الاكزیما",
+    "phone": "730348090",
+    "balance": "4940",
+    "debt": "0",
+    "paid": "0",
+    "new": "4,940"
+  },
+  {
+    "id": "306",
+    "name": "(ولید محمد علي(وضاح",
+    "phone": "733608583",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "307",
+    "name": "خالد الفخري",
+    "phone": "772898474",
+    "balance": "-40",
+    "debt": "0",
+    "paid": "0",
+    "new": "-40"
+  },
+  {
+    "id": "308",
+    "name": "اخت ام شدى",
+    "phone": "77373631",
+    "balance": "-20",
+    "debt": "0",
+    "paid": "0",
+    "new": "-20"
+  },
+  {
+    "id": "309",
+    "name": "الخطیب",
+    "phone": "",
+    "balance": "-40",
+    "debt": "0",
+    "paid": "0",
+    "new": "-40"
+  },
+  {
+    "id": "310",
+    "name": "طھ المروسي",
+    "phone": "",
+    "balance": "30",
+    "debt": "0",
+    "paid": "0",
+    "new": "30"
+  },
+  {
+    "id": "311",
+    "name": "ام محمد ضمانة اختیار",
+    "phone": "774923011",
+    "balance": "-60",
+    "debt": "0",
+    "paid": "0",
+    "new": "-60"
+  },
+  {
+    "id": "312",
+    "name": "صلاح معمل اسنان النخبة",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "313",
+    "name": "نبیل السامعي جار د منصور",
+    "phone": "734146370",
+    "balance": "73496",
+    "debt": "0",
+    "paid": "0",
+    "new": "73,496"
+  },
+  {
+    "id": "314",
+    "name": "محمد مختار القباطي . نشوة",
+    "phone": "730208578",
+    "balance": "58360",
+    "debt": "0",
+    "paid": "0",
+    "new": "58,360"
+  },
+  {
+    "id": "315",
+    "name": "محمد نجیب صاحب البطاط",
+    "phone": "733736264",
+    "balance": "106568",
+    "debt": "0",
+    "paid": "0",
+    "new": "106,568"
+  },
+  {
+    "id": "316",
+    "name": "ام عبدﷲ شعلان",
+    "phone": "733715312",
+    "balance": "6700",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,700"
+  },
+  {
+    "id": "317",
+    "name": "ام انس عائشة",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "318",
+    "name": "صادق القباطي كھرباء",
+    "phone": "737149434",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "319",
+    "name": "بكیل سالم ٧٣٥٢٧٢٧١٦",
+    "phone": "735272710",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "320",
+    "name": "ص زیكو",
+    "phone": "",
+    "balance": "3960",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,960"
+  },
+  {
+    "id": "321",
+    "name": "وائل بكبل",
+    "phone": "773645345",
+    "balance": "9000",
+    "debt": "0",
+    "paid": "0",
+    "new": "9,000"
+  },
+  {
+    "id": "322",
+    "name": "مروان سیف",
+    "phone": "730329017",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1780921409761",
+    "name": "ام تركي",
+    "phone": "735966417",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781072659358",
+    "name": "حبيب مهيوب",
+    "phone": "734822841",
+    "balance": "2600",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,600"
+  },
+  {
+    "id": "1781078784316",
+    "name": "محمد البعداني",
+    "phone": "734240213",
+    "balance": "200",
+    "debt": "0",
+    "paid": "0",
+    "new": "200"
+  },
+  {
+    "id": "1781079166728",
+    "name": "المصري",
+    "phone": "771191932",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781079239309",
+    "name": "عماد حيفان",
+    "phone": "730316504",
+    "balance": "2840",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,840"
+  },
+  {
+    "id": "1781079464480",
+    "name": "ع مهند",
+    "phone": "734422641",
+    "balance": "1500",
+    "debt": "0",
+    "paid": "0",
+    "new": "1,500"
+  },
+  {
+    "id": "1781079695449",
+    "name": "غالي",
+    "phone": "735180410",
+    "balance": "6700",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,700"
+  },
+  {
+    "id": "1781080205667",
+    "name": "علي سعيد",
+    "phone": "739827414",
+    "balance": "3300",
+    "debt": "0",
+    "paid": "0",
+    "new": "3,300"
+  },
+  {
+    "id": "1781081173917",
+    "name": "هشام الخياط",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781085547246",
+    "name": "بلال",
+    "phone": "777998244",
+    "balance": "2200",
+    "debt": "0",
+    "paid": "0",
+    "new": "2,200"
+  },
+  {
+    "id": "1781345451379",
+    "name": "ام رهام",
+    "phone": "772900755",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781372670603",
+    "name": "رياض المقطري",
+    "phone": "770790916",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781627399799",
+    "name": "مطعم البركه",
+    "phone": "771768836",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781691527694",
+    "name": "الوصابي",
+    "phone": "",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1781770520074",
+    "name": "وضاح سعيد",
+    "phone": "735783162",
+    "balance": "16490",
+    "debt": "0",
+    "paid": "0",
+    "new": "16,490"
+  },
+  {
+    "id": "1782231365866",
+    "name": "عمر الخباشي",
+    "phone": "730605769",
+    "balance": "5050",
+    "debt": "0",
+    "paid": "0",
+    "new": "5,050"
+  },
+  {
+    "id": "1782541688189",
+    "name": "حاتم علي",
+    "phone": "734087032",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1782662823838",
+    "name": "فكري العريقي",
+    "phone": "774749025",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1783411319812",
+    "name": "رضوان محمد",
+    "phone": "773951238",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1784472508139",
+    "name": "ام يزن",
+    "phone": "736369725",
+    "balance": "6718",
+    "debt": "0",
+    "paid": "0",
+    "new": "6,718"
+  },
+  {
+    "id": "1785062433761",
+    "name": "احمد القباطي",
+    "phone": "775060757",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  },
+  {
+    "id": "1786889013911",
+    "name": "احمد الابيض",
+    "phone": "730228632",
+    "balance": "0",
+    "debt": "0",
+    "paid": "0",
+    "new": "0"
+  }
+];
+
+let customers = [];
+let currentMessageCustomer = null;
+let currentMessageText = "";
+let showMovementOnly = false;
+
+function loadCustomers(){
+    const saved = localStorage.getItem('shifa_customers_v2');
+    if(saved){
+        try {
+            customers = JSON.parse(saved);
+            console.log('loaded from local');
+        } catch(e){ customers = initialCustomers; }
+    } else {
+        customers = initialCustomers;
+    }
+    // ensure numbers
+    customers.forEach(c=>{
+        c.balance = parseFloat(c.balance)||0;
+        c.debt = parseFloat(c.debt)||0;
+        c.paid = parseFloat(c.paid)||0;
+    });
+}
+
+function saveLocal(){
+    localStorage.setItem('shifa_customers_v2', JSON.stringify(customers));
+    localStorage.setItem('shifa_last_save', new Date().toISOString());
+    document.getElementById('syncStatus').innerHTML = '✅ تم الحفظ المحلي بنجاح - ' + new Date().toLocaleTimeString('ar-EG');
+    document.getElementById('syncStatus').style.background = '#e8f5e9';
+    showToast('✅ تم الحفظ داخل الملف (LocalStorage)');
+    render();
+}
+
+// Firebase optional - user can configure
+
+// ===== إعدادات Firebase - تم استرجاعها (ضع إعداداتك هنا) =====
+// يمكنك الحصول عليها من console.firebase.google.com > Project Settings > General > Your apps > SDK setup
+const firebaseConfig = {
+    apiKey: "PUT_YOUR_API_KEY_HERE",
+    authDomain: "PUT_YOUR_AUTH_DOMAIN_HERE",
+    databaseURL: "PUT_YOUR_DATABASE_URL_HERE",
+    projectId: "PUT_YOUR_PROJECT_ID_HERE",
+    storageBucket: "PUT_YOUR_STORAGE_BUCKET_HERE",
+    messagingSenderId: "PUT_YOUR_SENDER_ID_HERE",
+    appId: "PUT_YOUR_APP_ID_HERE"
+};
+
+let firebaseApp = null;
+let firebaseDB = null;
+let isFirebaseConfigured = false;
+
+function initFirebase(){
+    try{
+        if(firebaseConfig.apiKey && firebaseConfig.apiKey !== "PUT_YOUR_API_KEY_HERE"){
+            if(!firebase.apps.length){
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+            } else {
+                firebaseApp = firebase.app();
+            }
+            firebaseDB = firebase.database ? firebase.database() : null;
+            if(firebase.firestore){
+                window.firestoreDB = firebase.firestore();
+            }
+            isFirebaseConfigured = true;
+            document.getElementById('syncStatus').innerHTML = '☁️ Firebase جاهز - متصل بالسحابة';
+            document.getElementById('syncStatus').style.background = '#e3f2fd';
+            return true;
+        } else {
+            isFirebaseConfigured = false;
+            document.getElementById('syncStatus').innerHTML = '✅ الحفظ المحلي نشط - Firebase غير مكون (اضغط ⚙️ للإعداد)';
+            document.getElementById('syncStatus').style.background = '#e8f5e9';
+            return false;
+        }
+    }catch(e){
+        console.error(e);
+        isFirebaseConfigured = false;
+        document.getElementById('syncStatus').innerHTML = '⚠️ خطأ في Firebase: ' + e.message;
+        return false;
+    }
+}
+
+// استرجاع الإعدادات المحفوظة محلياً
+function loadFirebaseConfigFromLocal(){
+    const saved = localStorage.getItem('shifa_firebase_config');
+    if(saved){
+        try{
+            const cfg = JSON.parse(saved);
+            Object.assign(firebaseConfig, cfg);
+        }catch(e){}
+    }
+}
+
+
+async function uploadToGoogle(){
+    const msgEl = document.getElementById('cloudMsg');
+    msgEl.style.color = '#FF9800';
+    msgEl.textContent = '⏳ جاري الرفع إلى سيرفر جوجل Firebase...';
+    try{
+        saveLocal();
+        if(!isFirebaseConfigured){
+            initFirebase();
+        }
+        if(!isFirebaseConfigured){
+            msgEl.style.color = 'orange';
+            msgEl.textContent = '⚠️ Firebase غير مكون - تم الحفظ محلياً فقط. اضغط ⚙️ لإدخال إعدادات Firebase';
+            openSettingsModal();
+            return;
+        }
+        // حفظ في Realtime Database
+        if(firebaseDB){
+            await firebaseDB.ref('pharmacies/shifa_central/customers').set(customers);
+            await firebaseDB.ref('pharmacies/shifa_central/lastUpdate').set(new Date().toISOString());
+        }
+        // حفظ أيضاً في Firestore إن وجد
+        if(window.firestoreDB){
+            await window.firestoreDB.collection('pharmacies').doc('shifa_central').set({
+                customers: customers,
+                lastUpdate: new Date().toISOString(),
+                totalDebt: customers.reduce((s,c)=> s + calcNew(c), 0)
+            }, {merge:true});
+        }
+        msgEl.style.color = 'green';
+        msgEl.textContent = '✅ تم الرفع إلى سيرفر جوجل Firebase بنجاح - ' + new Date().toLocaleTimeString('ar-EG');
+        showToast('☁️ تم الرفع إلى جوجل بنجاح');
+    }catch(e){
+        msgEl.style.color = 'red';
+        msgEl.textContent = '❌ فشل الرفع: ' + e.message;
+        console.error(e);
+    }
+}
+
+function downloadBackup(){
+    const dataStr = JSON.stringify(customers, null, 2);
+    const blob = new Blob([dataStr], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shifa_backup_' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('📥 تم تحميل النسخة الاحتياطية');
+}
+
+async function restoreFromCloud(){
+    const msgEl = document.getElementById('cloudMsg');
+    msgEl.style.color = '#FF9800';
+    msgEl.textContent = '⏳ جاري الاسترجاع من سيرفر جوجل...';
+    try{
+        if(!isFirebaseConfigured) initFirebase();
+        if(!isFirebaseConfigured){
+            // fallback to file picker
+            const input = document.createElement('input');
+            input.type='file'; input.accept='.json';
+            input.onchange = e=>{
+                const file = e.target.files[0]; if(!file) return;
+                const reader = new FileReader();
+                reader.onload = ev=>{
+                    try{
+                        const data = JSON.parse(ev.target.result);
+                        if(Array.isArray(data)){ customers=data; saveLocal(); render(); showToast('✅ تم الاسترجاع من الملف'); msgEl.textContent='✅ تم الاسترجاع من الملف'; }
+                    }catch(err){ alert('ملف غير صالح'); }
+                }; reader.readAsText(file);
+            }; input.click();
+            msgEl.textContent = 'اختر ملف JSON للاسترجاع';
+            return;
+        }
+        let fetched = null;
+        if(firebaseDB){
+            const snap = await firebaseDB.ref('pharmacies/shifa_central/customers').once('value');
+            fetched = snap.val();
+        }
+        if(!fetched && window.firestoreDB){
+            const doc = await window.firestoreDB.collection('pharmacies').doc('shifa_central').get();
+            if(doc.exists){ fetched = doc.data().customers; }
+        }
+        if(fetched && Array.isArray(fetched)){
+            customers = fetched;
+            saveLocal();
+            render();
+            msgEl.style.color='green';
+            msgEl.textContent='✅ تم الاسترجاع من سيرفر جوجل - ' + customers.length + ' عميل';
+            showToast('✅ تم الاسترجاع من جوجل');
+        }else{
+            msgEl.style.color='orange';
+            msgEl.textContent='⚠️ لا توجد بيانات في السحابة - سيتم استخدام الحفظ المحلي';
+        }
+    }catch(e){
+        msgEl.style.color='red';
+        msgEl.textContent='❌ فشل الاسترجاع: '+e.message;
+    }
+}
+
+function calcNew(c){ return (parseFloat(c.balance)||0) + (parseFloat(c.debt)||0) - (parseFloat(c.paid)||0); }
+
+function getFiltered(){
+    let list = customers;
+    const idQ = document.getElementById('searchId').value.trim();
+    const nameQ = document.getElementById('searchName').value.trim();
+    if(idQ) list = list.filter(c=> c.id.toString().includes(idQ));
+    if(nameQ) list = list.filter(c=> c.name.includes(nameQ));
+    if(showMovementOnly) list = list.filter(c=> (parseFloat(c.debt)||0)>0 || (parseFloat(c.paid)||0)>0);
+    return list;
+}
+
+function render(){
+    const list = getFiltered();
+    const total = customers.reduce((s,c)=> s + calcNew(c), 0);
+    document.getElementById('totalDebtBox').innerText = '💰 إجمالي الديون: ' + total.toLocaleString('ar-EG') + ' ريال';
+    document.getElementById('stats').innerText = `📊 إجمالي: ${customers.length} | معروض: ${list.length} | 🔴 حركة اليوم: ${customers.filter(c=>c.debt>0||c.paid>0).length}`;
+
+    let html = '<table><thead><tr><th>#</th><th>الاسم</th><th>الجوال</th><th>الرصيد الرئيسي</th><th>فاتورة(+)</th><th>سداد(-)</th><th>الرصيد الجديد</th><th>إجراءات</th></tr></thead><tbody>';
+    list.forEach(c=>{
+        const newBal = calcNew(c);
+        html += `<tr class="compact-row">
+            <td>${c.id}</td>
+            <td><strong>${c.name}</strong></td>
+            <td><input type="text" id="phone_${c.id}" value="${c.phone}" style="width:85px; font-size:11px;" onchange="updatePhone('${c.id}', this.value)"></td>
+            <td><input type="number" id="balance_${c.id}" value="${c.balance}" step="any" style="width:65px; font-size:11px;" onchange="updateBalance('${c.id}', this.value)"></td>
+            <td><input type="number" id="debt_${c.id}" value="${c.debt}" step="any" style="width:55px; font-size:11px;" onchange="updateDebt('${c.id}', this.value)"></td>
+            <td><input type="number" id="paid_${c.id}" value="${c.paid}" step="any" style="width:55px; font-size:11px;" onchange="updatePaid('${c.id}', this.value)"></td>
+            <td id="new_${c.id}" style="color:#2b8c5e; font-weight:bold; font-size:11px;">${newBal.toLocaleString()}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="touch-btn" title="حفظ" onclick="saveRow('${c.id}')">💾</button>
+                    <button class="btn-wa touch-btn" title="واتساب" onclick="openMessage('${c.id}')">📱</button>
+                    <button class="btn-sms touch-btn" title="رسالة" onclick="openMessage('${c.id}')">✉️</button>
+                    <button class="btn-danger touch-btn" title="حذف" onclick="deleteCustomer('${c.id}')">🗑️</button>
+                </div>
+            </td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('customersTable').innerHTML = html;
+}
+
+function updatePhone(id, v){ const c=customers.find(x=>x.id==id); if(c) c.phone=v; }
+function updateBalance(id, v){ const c=customers.find(x=>x.id==id); if(c){ c.balance=parseFloat(v)||0; document.getElementById('new_'+id).innerText = calcNew(c).toLocaleString(); } }
+function updateDebt(id, v){ const c=customers.find(x=>x.id==id); if(c){ c.debt=parseFloat(v)||0; document.getElementById('new_'+id).innerText = calcNew(c).toLocaleString(); } }
+function updatePaid(id, v){ const c=customers.find(x=>x.id==id); if(c){ c.paid=parseFloat(v)||0; document.getElementById('new_'+id).innerText = calcNew(c).toLocaleString(); } }
+function saveRow(id){ saveLocal(); showToast('تم حفظ '+id); }
+
+// ===== صيغة الرسالة المطلوبة =====
+function buildMessage(c){
+    const name = c.name;
+    const newBal = calcNew(c);
+    const debt = parseFloat(c.debt)||0;
+    const paid = parseFloat(c.paid)||0;
+    const pharmacy = 'صيدلية الشفاء المركزية';
+    const phone = '774410166';
+
+    // حسب طلبك:
+    // إذا عليه فاتورة (debt >0) -> رسالة فاتورة فقط، بدون ذكر "تم استلام"
+    // إذا أعطى مبلغ (paid >0) -> رسالة استلام فقط، بدون ذكر "تم تقييد مبلغ"
+
+    if(paid > 0 && debt === 0){
+        // حالة سداد
+        return `السلام عليكم ${name}\nتم استلام مبلغ قدره ${paid.toLocaleString()} ريال\nمنكم في ${pharmacy}\nالرصيد المتبقي عليكم: ${newBal.toLocaleString()} ريال\nشكراً لتعاملكم معنا\nللاستفسار: ${phone}`;
+    } else if(debt > 0 && paid === 0){
+        // حالة فاتورة
+        return `السلام عليكم ${name}\nنود إعلامكم أن عليكم فاتورة بمبلغ ${debt.toLocaleString()} ريال\nفي ${pharmacy}\nإجمالي الرصيد الحالي: ${newBal.toLocaleString()} ريال\nنرجو التكرم بالسداد في أقرب فرصة\nللاستفسار: ${phone}`;
+    } else if(debt > 0 && paid > 0){
+        // حالة مختلطة - نعطي الأولوية حسب ما تريد: نفصلها بوضوح بدون خلط العبارات
+        // سنرسل رسالتين منفصلتين منطقياً في رسالة واحدة منظمة
+        return `السلام عليكم ${name}\nتم استلام مبلغ قدره ${paid.toLocaleString()} ريال\nوتم تسجيل فاتورة جديدة بمبلغ ${debt.toLocaleString()} ريال\nفي ${pharmacy}\nالرصيد الحالي: ${newBal.toLocaleString()} ريال\nللاستفسار: ${phone}`;
+    } else {
+        // لا حركة - تذكير عام
+        return `السلام عليكم ${name}\nنذكركم بأن رصيدكم الحالي في ${pharmacy} هو ${newBal.toLocaleString()} ريال\nللاستفسار: ${phone}`;
+    }
+}
+
+function openMessage(id){
+    const c = customers.find(x=>x.id==id);
+    if(!c) return;
+    currentMessageCustomer = c;
+    currentMessageText = buildMessage(c);
+    document.getElementById('modalMessage').innerText = currentMessageText;
+    document.getElementById('messageModal').classList.add('active');
+}
+
+function closeMessageModal(){ document.getElementById('messageModal').classList.remove('active'); }
+function sendWhatsAppCurrent(){
+    if(!currentMessageCustomer) return;
+    const phone = currentMessageCustomer.phone.replace(/[^0-9]/g,'');
+    let waPhone = phone;
+    if(waPhone.startsWith('7')) waPhone = '967' + waPhone;
+    const url = `https://wa.me/${waPhone}?text=${encodeURIComponent(currentMessageText)}`;
+    window.open(url,'_blank');
+    // تصفير الحركة بعد الإرسال
+    currentMessageCustomer.debt = 0;
+    currentMessageCustomer.paid = 0;
+    saveLocal();
+    closeMessageModal();
+}
+function sendSmsCurrent(){
+    if(!currentMessageCustomer) return;
+    const phone = currentMessageCustomer.phone;
+    const url = `sms:${phone}?body=${encodeURIComponent(currentMessageText)}`;
+    window.open(url,'_blank');
+    currentMessageCustomer.debt = 0;
+    currentMessageCustomer.paid = 0;
+    saveLocal();
+    closeMessageModal();
+}
+
+function openAddModal(){ document.getElementById('addCustomerModal').classList.add('active'); }
+function closeAddModal(){ document.getElementById('addCustomerModal').classList.remove('active'); }
+function addCustomer(){
+    const name = document.getElementById('newCustomerName').value.trim();
+    const phone = document.getElementById('newCustomerPhone').value.trim();
+    if(!name){ alert('أدخل اسم العميل'); return; }
+    const newId = Date.now().toString();
+    customers.push({id:newId, name:name, phone:phone, balance:0, debt:0, paid:0});
+    document.getElementById('newCustomerName').value='';
+    document.getElementById('newCustomerPhone').value='';
+    closeAddModal();
+    saveLocal();
+}
+
+function deleteCustomer(id){
+    if(!confirm('هل أنت متأكد من حذف العميل؟')) return;
+    customers = customers.filter(c=>c.id!=id);
+    saveLocal();
+}
+
+function doSearch(){ render(); }
+function clearSearch(){ document.getElementById('searchId').value=''; document.getElementById('searchName').value=''; render(); }
+function showAll(){ showMovementOnly=false; document.getElementById('showAllBtn').style.opacity='1'; document.getElementById('showMovementBtn').style.opacity='0.6'; render(); }
+function showMovement(){ showMovementOnly=true; document.getElementById('showAllBtn').style.opacity='0.6'; document.getElementById('showMovementBtn').style.opacity='1'; render(); }
+
+function exportExcel(){
+    const data = customers.map(c=>({
+        'رقم العميل': c.id,
+        'الاسم': c.name,
+        'الجوال': c.phone,
+        'الرصيد الرئيسي': c.balance,
+        'فاتورة': c.debt,
+        'سداد': c.paid,
+        'الرصيد الجديد': calcNew(c)
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'العملاء');
+    XLSX.writeFile(wb, 'صيدلية_الشفاء_المركزية_'+ new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+function openSendAllModal(){ document.getElementById('sendAllModal').classList.add('active'); }
+function closeSendAllModal(){ document.getElementById('sendAllModal').classList.remove('active'); }
+function sendAll(){ closeSendAllModal(); alert('سيتم فتح واتساب لكل عميل عليه رصيد. الميزة تفتح تبويب واحد تلو الآخر.'); }
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.style.display='block';
+    setTimeout(()=> t.style.display='none', 2500);
+}
+
+// Init
+loadFirebaseConfigFromLocal();
+loadCustomers();
+initFirebase();
+render();
+// حفظ تلقائي كل 30 ثانية محلياً
+setInterval(()=>{ localStorage.setItem('shifa_customers_v2', JSON.stringify(customers)); }, 30000);
+
+function openSettingsModal(){
+    const cfg = JSON.parse(localStorage.getItem('shifa_firebase_config')||'{}');
+    document.getElementById('cfg_apiKey').value = cfg.apiKey||firebaseConfig.apiKey||'';
+    document.getElementById('cfg_authDomain').value = cfg.authDomain||firebaseConfig.authDomain||'';
+    document.getElementById('cfg_databaseURL').value = cfg.databaseURL||firebaseConfig.databaseURL||'';
+    document.getElementById('cfg_projectId').value = cfg.projectId||firebaseConfig.projectId||'';
+    document.getElementById('cfg_storageBucket').value = cfg.storageBucket||firebaseConfig.storageBucket||'';
+    document.getElementById('cfg_messagingSenderId').value = cfg.messagingSenderId||firebaseConfig.messagingSenderId||'';
+    document.getElementById('cfg_appId').value = cfg.appId||firebaseConfig.appId||'';
+    document.getElementById('firebaseConfigInput').value = localStorage.getItem('shifa_firebase_config')||'';
+    document.getElementById('settingsModal').classList.add('active');
+}
+function closeSettingsModal(){ document.getElementById('settingsModal').classList.remove('active'); }
+function saveFirebaseConfig(){
+    let cfg = {};
+    try{
+        const txt = document.getElementById('firebaseConfigInput').value.trim();
+        if(txt){
+            cfg = JSON.parse(txt);
+        } else {
+            cfg = {
+                apiKey: document.getElementById('cfg_apiKey').value.trim(),
+                authDomain: document.getElementById('cfg_authDomain').value.trim(),
+                databaseURL: document.getElementById('cfg_databaseURL').value.trim(),
+                projectId: document.getElementById('cfg_projectId').value.trim(),
+                storageBucket: document.getElementById('cfg_storageBucket').value.trim(),
+                messagingSenderId: document.getElementById('cfg_messagingSenderId').value.trim(),
+                appId: document.getElementById('cfg_appId').value.trim()
+            };
+        }
+        if(!cfg.apiKey){ alert('apiKey مطلوب'); return; }
+        localStorage.setItem('shifa_firebase_config', JSON.stringify(cfg));
+        Object.assign(firebaseConfig, cfg);
+        document.getElementById('settingsMsg').style.color='green';
+        document.getElementById('settingsMsg').textContent='✅ تم حفظ إعدادات Firebase';
+        initFirebase();
+        showToast('✅ تم حفظ إعدادات Firebase');
+        setTimeout(closeSettingsModal, 1000);
+    }catch(e){
+        document.getElementById('settingsMsg').style.color='red';
+        document.getElementById('settingsMsg').textContent='❌ خطأ: ' + e.message;
+    }
+}
+function testFirebaseConfig(){
+    saveFirebaseConfig();
+    setTimeout(async ()=>{
+        try{
+            if(!isFirebaseConfigured) initFirebase();
+            if(firebaseDB){
+                await firebaseDB.ref('test').set({time: new Date().toISOString()});
+                document.getElementById('settingsMsg').style.color='green';
+                document.getElementById('settingsMsg').textContent='✅ الاتصال ناجح مع Firebase!';
+            }
+        }catch(e){
+            document.getElementById('settingsMsg').style.color='red';
+            document.getElementById('settingsMsg').textContent='❌ فشل الاتصال: ' + e.message;
+        }
+    },500);
+}
+
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+</html>
